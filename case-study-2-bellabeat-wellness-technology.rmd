@@ -1,0 +1,432 @@
+# TABLE OF CONTENTS
+
+* [About the Company Bellabeat](#About the Company Bellabeat)
+    * [Products of the company](#Products of the company)
+* [Communicate with Others](#Communicate with Others)
+    * [Business Task](#Business Task)
+    * [Business Objective](#Business Objective)
+    * [Business Deliverables](#Business Deliverables)
+    * [Stakeholders of the Project](#Stakeholders of the Project)
+* [Organize and protect data](#Organize and protect data)
+    * [Data Source](#Data Source)
+    * [CC0 Public Domain](#CC0 Public Domain)
+    * [Data Description](#Data Description)
+    * [Data Limitations](#Data Limitations)
+* [Generate, transform, and preserve data integrity](#Generate, transform, and preserve data integrity)
+    * [Upload CSV Files Into R](#Upload CSV Files Into R)
+    * [Importing packages](#Importing packages)
+    * [Loading the .CSV Files](#Loading the .CSV Files)
+    * [Clean data](#Clean data)
+    * [Analysis on datasets based on the rows retrieved](#Analysis on datasets based on the rows retrieved)
+    * [Renaming](#Renaming)
+    * [Time to merge Datasets](#Time to merge Datasets)
+    * [Duplicacy of the data](#Duplicacy of the data)
+* [Generate forecasts and suggestions using visuals and narrative](#Generate forecasts and suggestions using visuals and narrative)
+    * [Summarization the data](#Summarization the data)
+    * [Few more investigations into users behavior](#Few more investigations into users behavior)
+    * [Interpreting Statistical findings](#Interpreting Statistical findings)
+* [Create something new while applying insights](#Create something new while applying insights)
+    * [Insights gained during this Analysis](#Insights gained during this Analysis)
+    * [An overview of the results is as follows](#An overview of the results is as follows)
+    * [Recommendation for Bellabeat Marketing Team](#Recommendation for Bellabeat Marketing Team)
+
+---
+title: 'Case Study 2: How Can a Wellness Technology Company Play it Smart'
+author: 'Reshu Narang'
+date: '`r Sys.Date()`'
+output:
+  html_document:
+    number_sections: true
+    toc: true
+---
+
+# About the Company Bellabeat:
+Bellabeat is a cutting edge technology company founded by Urška Sršen and Sandor Mur. All of their products are designed to improve person 
+health. Sren drew on her background as an artist to develop innovative tools that give women access to information and inspiration on a global 
+scale. By tracking their movement, rest, emotional state, and reproductive health, Bellabeat has provided women with the tools they need to 
+take charge of their own health and well-being. Since its inception in 2013, Bellabeat, a tech-driven wellness company for women, has experienced 
+explosive growth.
+
+### Products of the company:
+**Ivy:** is a one-of-a-kind health and wellness tracker designed by women specifically for women. Ivy, a stylish bracelet that analyzes your 
+physiological data, physical and mental activities, knows what you need to do to improve your self-care routines and achieve peak performance. 
+This product was just released, and its data are not included in our analysis.
+
+**Bellabeat app:** offers users with health-related information regarding their activity, sleep, stress, menstrual cycle, and mindfulness practices. 
+This data can aid users in gaining a better understanding of their existing habits and in making healthy choices. The Bellabeat app is compatible 
+with their smart wellness product line.
+
+**Leaf:** The Leaf wellness tracker by Bellabeat can be worn as a bracelet, necklace, or clip. Leaf connects to the Bellabeat app to monitor exercise,
+sleep, and stress. This health watch blends the timeless design of a classic clock with advanced technology to monitor the wearer 
+activity, sleep, and stress levels. The Time watch connects to the Bellabeat app in order to deliver daily wellness information.
+
+**Spring:** This is a smart water bottle that monitors daily water intake to ensure that you remain well hydrated throughout the day. 
+The Spring bottle is integrated with the Bellabeat app to monitor hydration levels.
+
+**Membership on Bellabeat** Bellabeat also provides consumers with a subscription-based membership scheme. Membership grants customers access to 
+fully customized advice on diet, fitness, sleep, health and beauty, and mindfulness, depending on their lifestyle and objectives, 24 hours a day, 
+seven days a week.
+
+# Communicate with Others
+Specifically, I will be looking at the data from Bellabeat Leaf and Time products to learn more about how people are employing smart watches.
+
+### Business Task:
+Sršen requests that the data regarding the usage of smart devices be analyzed in order to acquire insight into the manner in which customers 
+utilize smart devices that are not Bellabeat products.
+
+### Business Objective:
+How has the use of smart devices evolved recently?     
+Wearable fitness technology, including gadgets like FitBits and smartwatches, has established itself as a viable niche in the healthcare market. 
+Consumers interest in tracking their own health and vital signs has led to a tripling in the adoption of wearable devices over the past four years.
+Wearables are predicted to remain popular over the next few years as more people become open to sharing their health data with healthcare 
+professionals and insurance. Insider Intelligence predicted in October 2021 that the US Smart wearable user market would expand 25.5% YoY 
+in 2023, up from 23.3% YoY growth in 2021.[SmartDevices Evolution]
+(https://www.insiderintelligence.com/insights/wearable-technology-healthcare-medical-devices)
+
+### Business Deliverables:
+Find the key differences between Fitbit users and Bellabeat users and how digital media and other factors could influence them.
+
+### Stakeholders of the Project:
+Urška Sršen: Bellabeat’s co founder and Chief Creative Officer 
+Sando Mur: Mathematician and Bellabeat co founder; key member of the Bellabeat executive team 
+Bellabeat marketing analytics team: A team of data analysts responsible for collecting, analyzing, and reporting data that helps guide Bellabeat’s 
+marketing strategy.
+
+# Organize and protect data
+
+### Data Source:
+The data is located in a [kaggle dataset](https://www.kaggle.com/datasets/arashnic/fitbit)
+
+### CC0 Public Domain
+This dataset is made available through [Mobius](https://www.kaggle.com/arashnic)
+
+### Data Description:
+This dataset is hosted on Kaggle and was made public through user Mobius in an open-source format. Hence, the data is public and available 
+to be copied, updated, and distributed, all without asking the user for permission. According to reports, these datasets were created by respondents 
+to a distributed poll conducted by **Amazon Mechanical Turk** between March 12 and May 12, 2016.
+Thirty qualified Fitbit users reportedly (see credibility section immediately below) agreed to submit personal tracker data, to include information 
+about their daily activity (number of steps walked, calories burnt, time awake, heart rate, and distance traveled). This information was compiled by 
+the minute, the hour, and the day. Eighteen CSV files provide this information. After saving all 18 files to my laptop, I decided to use just 3 of 
+them because they contained all the activities, sleep data and weight Log Information. For security purposes, the rest of the files have been wiped 
+clean. The 3 files that were used for further analysis are:       
+**sleepDay_merged.csv**.  
+**dailyActivity_merged.csv**.  
+**weightLogInfo.csv**.  
+
+### Data Limitations:
+Confirming the **ROCCC** process:  
+***Reliable:*** No, the data is not reliable because there are so few people represented in the sample (33). This large of a number increases the 
+likelihood of statistical error.  
+***Original:*** No, a third-party service generates the original dataset. *Amazon Mechanical Turk*.  
+***Comprehensive:*** Yes/No, the information is highly relevant to the Bellabeat Leaf products sleep and activity characteristics but does not 
+represent any other features.   
+***Current:*** A recent study, yes; this one is 7 years old, so may-not be relevant. 
+***Cited:*** Referenced - The information was gathered without revealing any personal details.   
+
+Aside from the ID and LogId number there is no personal information within the data collected. So there are no privacy concerns to address. 
+The participants remain anonymous. That being said, I do not know the age or gender, color, status of these participants so I am unaware of bias.
+
+***Note:*** Overall, this is not a quality dataset to be used for actual business recommendations.
+
+# Generate, transform, and preserve data integrity
+Make data more understandable and readable by cleaning and formatting it. At this point, the data has been organized by adding columns, extracting 
+relevant information, and eliminating any errors or duplication. To keep things straightforward, I have compiled everything into R. By transforming 
+the CSV files into tables and then linking those tables together using common properties, I was able to simply handle the full set of files and run 
+the necessary queries.
+
+### Upload CSV Files Into R
+I uploaded the CSV files to my project from the relevant data sources mentioned above.
+
+### Importing packages
+
+
+```{r}
+library(tidyverse) 
+library(lubridate) 
+library(janitor)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+```
+
+### Loading the .CSV Files
+Here I am considering three CSV files dailyActivity_merged.csv, sleepDay_merged.csv, weightLogInfo.csv instead of loading all 18 files in R. 
+The reason why I considered loading and analyzing these 3 files were that the dailyActivity_merged.csv contains a lot of same entities as the rest 
+of the tables e.g. calories, intensity, distance and steps data recorded on a daily basis. So to avoid the duplicacy of data I have considered only 3 
+datasets.
+
+```{r loading the dailyActivity_merged.csv}
+dailyActivity <- read_csv("../input/dailyactivity-merged/dailyActivity_merged.csv")
+(dailyActivity)
+```
+
+```{r loading the sleepDay_merged.csv }
+sleepDay <- read_csv("../input/sleepday-merged/sleepDay_merged.csv")
+(sleepDay)
+```
+
+```{r loading weightLogInfo_merged.csv}
+weightLogInfo <- read_csv("../input/weightloginfo-merged/weightLogInfo_merged.csv")
+(weightLogInfo)
+```
+
+### Clean data
+
+```{r For the result I got 33 rows}
+count(distinct(dailyActivity, Id))
+```
+
+For the result: I got 33 row
+
+```{r Here I retrieve 24 rows}
+count(distinct(sleepDay, Id))
+```
+
+Here, I retrieved 24 rows
+
+```{r Here I retrieved only 8 rows, which is quite less to consider for our analysis}
+count(distinct(weightLogInfo, Id))
+```
+
+Here I retrieved only 8 rows, which is quite less to consider for our analysis
+
+### Analysis on datasets based on the rows retrieved
+Let us check the data structure of dailyActivity and sleepDay to figure out if the datasets are cleaned and consistent.
+
+```{r}
+str(dailyActivity)
+str(sleepDay)
+```
+
+The Activity_Date entity and SleepDay entity are both Date/Time however they are defined incorrectly as a double character format.So, changing the format of the same
+
+```{r}
+dailyActivity$ActivityDate <- as.Date.character(dailyActivity$ActivityDate, format = "%m/%d/%Y")
+sleepDay$SleepDay <- as.Date.character(sleepDay$SleepDay, format = "%m/%d/%Y")
+```
+
+```{r}
+head(dailyActivity)
+```
+
+```{r}
+glimpse(dailyActivity)
+```
+
+```{r}
+head(sleepDay)
+```
+
+```{r}
+glimpse(sleepDay)
+```
+
+### Renaming the coloumns before merging makes it.
+
+```{r}
+sleepDay <- rename(sleepDay, date = SleepDay)
+
+```
+
+```{r}
+dailyActivity <- rename(dailyActivity, date = ActivityDate)
+
+```
+
+### Time to merge Datasets, using Id and date as a common key
+
+```{r}
+merged_daily_activity <- merge(x = dailyActivity, y = sleepDay, by = c("Id", "date"), all.x = TRUE )
+
+```
+
+Output of the merge
+
+```{r}
+head(merged_daily_activity)
+```
+
+### I can break the merged dataset for looking into the customer behaviour per day of the week and so I can calculate this by the referencing the date coloumn
+
+```{r}
+merged_daily_activity <- transform(merged_daily_activity, Weekday = weekdays(date))
+glimpse(merged_daily_activity)
+```
+
+### Duplicacy of the data
+
+```{r}
+sum(duplicated(merged_daily_activity))
+```
+
+Running the code, I found that there are 3 rows which are duplicated. Let us drop these rows to avoid duplicacy of data.
+
+```{r}
+merged_daily_activity <- merged_daily_activity %>% distinct() %>% drop_na()
+```
+
+Verifying the data again to have a clean data
+
+```{r}
+sum(duplicated(merged_daily_activity))
+```
+
+# Generate forecasts and suggestions using visuals and narrative
+
+### Summarization the data
+
+```{r}
+merged_daily_activity %>% 
+  select(
+    TotalSteps,
+    TotalDistance,
+    VeryActiveMinutes,
+    FairlyActiveMinutes,
+    LightlyActiveMinutes,
+    SedentaryMinutes,
+    TotalMinutesAsleep,
+    TotalTimeInBed,
+    Calories
+  ) %>% 
+  
+  summary()
+
+```
+
+The Output received is:   
+- TotalSteps(Average) : 8515.  
+- TotalDistance(Average) : 6.012.  
+- VeryActiveMinutes(Average) :25.05 minutes.  
+- FailrlyActiveMinutes(Average) : 17.92 minutes.  
+- LightlyActiveMinutes(Average) : 216.50 minutes.  
+- SedentaryMinutes(Average) : 712.10 minutes.  
+- TotalMinutesAsleep(Average) : 419.2 minutes.  
+- TotalTimeInBed(Average) : 458.50 minutes.  
+- Calories(Average) : 2389.  
+
+### Few more investigations into users behavior
+
+#### Lets analyze the data based on the criteria's found after merging the tables:         
+Calories Vs Very Active Minutes.   
+Calories Vs Total Distance covered and Total Steps.    
+Sedentary Minutes Vs Total Minutes Sleep and Total Time In Bed.     
+
+
+```{r}
+library(ggplot2)
+
+```
+
+### Total Distance Vs Calories
+According to the results of my research and my observations, I have found that a person will expend more calories if they travel a greater distance.
+
+```{r}
+ggplot(data = merged_daily_activity) +
+  geom_point(mapping = aes(x = Calories, y = TotalDistance, fill = TotalSteps, color = TotalSteps))            
+
+```
+
+### Calories Vs Active Minutes
+According to the findings of my research and the findings of my observation, if a person is physically active, they will burn more calories.
+
+```{r}
+ggplot(data = merged_daily_activity) +
+  geom_point(mapping = aes(x = Calories, y = VeryActiveMinutes))
+
+```
+
+### Sedentary Minutes Vs Total Steps Taken and Calories
+According to the results of my research, I have determined that there is an inverse relationship between the number of minutes spent sitting and the total number of steps taken. There is no connection between the amount of time spent sitting and the number of calories burned. In general, the number of calories burned is proportional to the total number of steps done.
+
+```{r}
+ggplot(data = merged_daily_activity) +
+  geom_point(mapping = aes(x = TotalSteps, y = SedentaryMinutes, color = Calories))
+ 
+```
+
+### Sedentary Minutes Vs Calories.  
+According to the results of my research and my observations, it seems that even when we are inactive, our bodies continue to expend some calories, but not nearly as much as when we are actively engaged in anything.
+
+
+```{r}
+ggplot(data = merged_daily_activity) +
+  geom_point(mapping = aes(x = Calories, y = SedentaryMinutes))
+
+```
+
+### Let's take a look at customer trends every week.
+According to my observations, people tend to be more active on the weekends relative to the weekdays, which results in a greater number of calories being burned.
+
+```{r}
+merged_daily_activity <- transform(merged_daily_activity, Weekday = weekdays(date))
+```
+
+
+```{r}
+ggplot(data = merged_daily_activity) +
+  geom_point(mapping = aes(x = Weekday, y = Calories, fill = Calories)) +
+   scale_fill_gradient(low = "light green", high = "dark green")
+```
+
+### Sleep Pattern 
+My observations indicate that people sleep more during the week and exercise more because they are well rested.
+
+```{r}
+ggplot(data = merged_daily_activity) +
+  geom_point(mapping = aes(x = Weekday, y = TotalMinutesAsleep, fill = TotalMinutesAsleep))
+
+
+```
+
+### Interpreting Statistical findings:
+
+install.packages("devtools") 
+devtools::install_github("kassambara/ggpubr")
+library(ggpubr)
+
+
+By comparing these three scenarios, I concluded that 'Total Distance Covered is more closely associated with Calories'
+
+```{r}
+p1 = ggplot(data = merged_daily_activity) +
+  geom_point(mapping = aes(x = TotalDistance, y = Calories), color = "purple")
+p2 = ggplot(data = merged_daily_activity) +
+  geom_point(mapping = aes(x = TotalSteps, y = Calories), color = "green")
+p3 = ggplot(data = merged_daily_activity) +
+  geom_point(mapping = aes(x = VeryActiveMinutes, y = Calories), color = "orange")
+
+```
+
+```{r}
+library(cowplot)
+plot_grid(p1, p2, p3, labels = c("Total Distance Vs. Calories", "Total Steps Vs. Calories", "Total Minutes Active Vs. Calories"), ncol = 3, nrow = 1)
+         
+```
+
+# Create something new while applying insights
+
+### Insights gained during this Analysis:
+Clearly communicate to the stakeholders of Bellabeat the insights that I have gained throughout the course of this data analysis project in such a way 
+that it assists the stakeholders of Bellabeat in driving future data analysis projects for the purpose of assisting marketing strategies and promoting 
+future growth. The most important takeaways are:
+According to the findings, the FitBit users appear to have sampled their recorded Step data more than twice as frequently as they recorded their Sleep 
+Data. If this is indeed the case, then new data sources may present further chances for Bellabeat to educate its clients about the relative 
+significance of getting enough sleep and staying active.
+
+### An overview of the results is as follows:
+The more active a person is, as measured by the total amount of time spent being active, the more calories that person will burn. The number of steps 
+taken and the distance traveled both have a direct bearing on the amount of calories that are expended. When one looks at the graph, it is rather 
+obvious that the people burned more calories when they had sufficient amounts of rest. Which brings us to the conclusion that our theory that being 
+more active will not only help us retain excellent health, but it will also be advantageous at work as well as in our personal lives, where we would 
+be able to be more productive and sleep better.
+
+### Recommendation for Bellabeat Marketing Team:
+Bellabeat should advertise the benefits of their products alongside the advantages of walking, running, or other forms of exercise, as well as the 
+fact that Bellabeat products can help to monitor and manage healthy lifestyles by providing insights and data to continue improving and incorporate an 
+active life. The application may be simple to use and can offer guidance to the consumer based on data patterns recorded by the application over a 
+one-month period. As a result, it is essential to enable the individuals to progressively improve from a Sedentary Lifestyle to a Casually Active to a 
+Fairly Active Lifestyle, and to assist consumers in achieving their goal as an incentive to do so.                        
+
+<font size = "3"><span style="color:blue"> **This case study provided me with a wealth of knowledge and insights for carrying out the analysis 
+process from beginning to conclusion.** </span></font>
+
